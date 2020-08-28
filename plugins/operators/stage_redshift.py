@@ -47,7 +47,6 @@ class StageToRedshiftOperator(BaseOperator):
         
         #code to determine if backfill on specifc timestamps is being requested
         if self.table == "staging_events" and execution_ts < now_minus2h_ts:
-            self.log.info("BACKFILL process in-progress: Copying data from S3 '{}' to '{}' table on Redshift".format(s3_path, self.table))
             s3_path = "s3://{}/{}/{}/{}/{}-{}-{}-events.json".format(self.s3_bucket, 
                                                                      rendered_key, 
                                                                      execution_ts.strftime("%Y"), 
@@ -55,6 +54,7 @@ class StageToRedshiftOperator(BaseOperator):
                                                                      execution_ts.strftime("%Y"), 
                                                                      execution_ts.strftime("%m"), 
                                                                      execution_ts.strftime("%d"))
+            self.log.info("BACKFILL process in-progress: Copying data from S3 '{}' to '{}' table on Redshift".format(s3_path, self.table))
         else:
             s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
             self.log.info("Copying data from S3 '{}' to '{}' table on Redshift".format(s3_path, self.table))
