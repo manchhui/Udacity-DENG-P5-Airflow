@@ -59,6 +59,7 @@ class StageToRedshiftOperator(BaseOperator):
             s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
             self.log.info("Copying data from S3 '{}' to '{}' table on Redshift".format(s3_path, self.table))
             
+        #code to determine S3 file path and the destination table on Redshift
         formatted_sql = StageToRedshiftOperator.copy_sql.format(
             self.table,
             s3_path,
@@ -67,3 +68,12 @@ class StageToRedshiftOperator(BaseOperator):
             self.file_type
         )
         redshift.run(formatted_sql)
+        
+        #clean up data to remove NULL values
+        if self.table == "staging_events":
+            redshift.run("DELETE FROM {} WHERE userId IS NULL;".format(self.table))
+            redshift.run("DELETE FROM {} WHERE sessionId IS NULL;".format(self.table))
+            redshift.run("DELETE FROM {} WHERE ts IS NULL;".format(self.table))
+        else:
+            redshift.run("DELETE FROM {} WHERE song_id IS NULL;".format(self.table))
+            redshift.run("DELETE FROM {} WHERE song_id IS NULL;".format(self.table))
