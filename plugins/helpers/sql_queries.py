@@ -1,6 +1,8 @@
 class SqlQueries:
     songplay_table_insert = ("""
-        INSERT INTO songplays
+        CREATE TEMP TABLE songplays_staging (LIKE songplays);
+    
+        INSERT INTO songplays_staging
         SELECT distinct
             md5(events.sessionid || events.start_time) AS playid,
             events.start_time, 
@@ -17,7 +19,26 @@ class SqlQueries:
         LEFT JOIN staging_songs songs
         ON events.song = songs.title
             AND events.artist = songs.artist_name
-            AND events.length = songs.duration
+            AND events.length = songs.duration;
+            
+        INSERT INTO songplays 
+        SELECT distinct
+            st.playid, 
+            st.start_time, 
+            st.userid, 
+            st.level, 
+            st.songid, 
+            st.artistid, 
+            st.sessionid, 
+            st.location, 
+            st.user_agent
+        FROM (SELECT st.* 
+            FROM songplays_staging st) st
+        LEFT JOIN songplays s
+        ON st.playid = s.playid
+        WHERE s.playid IS NULL;
+        
+        DROP TABLE IF EXISTS songplays_staging;
     """)
 
     user_table_insert = ("""
