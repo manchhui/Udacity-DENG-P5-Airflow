@@ -80,4 +80,4 @@ class StageToRedshiftOperator(BaseOperator):
             redshift.run("DELETE FROM {} WHERE ts IS NULL;".format(self.table))
         else:
             redshift.run("DELETE FROM {} WHERE song_id IS NULL;".format(self.table))
-            redshift.run("DELETE FROM {} WHERE song_id IS NULL;".format(self.table))
+            redshift.run("DELETE FROM {} WHERE artist_id IS NULL;".format(self.table))
