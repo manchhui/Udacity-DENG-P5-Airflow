@@ -83,15 +83,15 @@ This is called by the fact and load operators to perform ETL from the song and l
 ### 3.1 Setup Airflow
 To use the Airflow's UI you must first configure your AWS credentials and connection to Redshift.
 
-#### 1. To go to the Airflow UI:
-* From within the Udacity Project Workspace here and click on the blue Access Airflow button in the bottom right.
-* If you'd prefer to run Airflow locally, open http://localhost:8080 in Google Chrome (other browsers occasionally have issues rendering the Airflow UI).
+> ##### 1. To go to the Airflow UI:
+* From within the Udacity Project Workspace, click on the blue Access Airflow button in the bottom right.
+* If you run Airflow locally, open http://localhost:8080 in Google Chrome (other browsers occasionally have issues rendering the Airflow UI).
 
-#### 2. Click on the Admin tab and select Connections.
+> ##### 2. Click on the Admin tab and select Connections.
 
-#### 3. Under Connections, select Create.
+> ##### 3. Under Connections, select Create.
 
-#### 4. On the create connection page, enter the following values:
+> ##### 4. On the create connection page, enter the following values:
 * Conn Id: Enter aws_credentials.
 * Conn Type: Enter Amazon Web Services.
 * Login: Enter your Access key ID from the IAM User credentials you downloaded earlier.
@@ -99,7 +99,7 @@ To use the Airflow's UI you must first configure your AWS credentials and connec
 
 Once you've entered these values, select Save and Add Another.
 
-#### 5. On the next create connection page, enter the following values:
+> #### 5. On the next create connection page, enter the following values:
 
 * Conn Id: Enter redshift.
 * Conn Type: Enter Postgres.
