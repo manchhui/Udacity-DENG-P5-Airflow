@@ -47,13 +47,20 @@ There are two source datasets, one called "song" and another "log" and these are
 This **dag** must be used first before the **main dag** "udac_sl_etl_dag.py"
 
 #### 2.1.2 udac_sl_etl_dag.py
-This **main dag** contains all the operator calls and task dependencies to correctly perform ETL of the data from AWS S3 into the fact and dimension tables on AWS Redshift.
+This **main dag** contains all the operator calls and task dependencies to correctly perform ETL of the data from AWS S3 into the fact and dimension tables on AWS Redshift. , refer to the diagram below for the details of task dependencies.
 
-![alt text](https://github.com/manchhui/Udacity-DENG-P5-Airflow/blob/master/0F8A8AC5-6E35-40D6-B3B8-13A6489AE179_4_5005_c.jpeg)
+![](https://github.com/manchhui/Udacity-DENG-P5-Airflow/blob/master/0F8A8AC5-6E35-40D6-B3B8-13A6489AE179_4_5005_c.jpeg)
+
+Furthermore the default parameters are as below:
+* The DAG does not have dependencies on past runs
+* On failure, the task are retried 3 times
+* Retries happen every 5 minutes
+* Catchup is turned off
+* Do not email on retry
 
 ### 2.2 Files within "/plugins/operators/" folder:
 #### 2.2.1 stage_redshift.py
-This python script is the stage operator and loads any JSON formatted, song and log, files from S3 to Amazon Redshift. The operator creates and runs a SQL COPY statement based on the parameters provided by the **main dag** "udac_sl_etl_dag.py" that calls this operator. 
+This python script is the stage operator and loads any JSON formatted, song and log, files from S3 to Amazon Redshift. The operator creates and runs a SQL COPY statement based on the parameters provided by the **main dag** "udac_sl_etl_dag.py" that calls this operator.
 
 Additionally this operator contains a backfill feature that can load specific timestamped log files from S3 based on the execution time of the dag.
 
@@ -74,9 +81,39 @@ This is called by the fact and load operators to perform ETL from the song and l
 
 ## 3. User Guide
 ### 3.1 Setup Airflow
-To be written.
+To use the Airflow's UI you must first configure your AWS credentials and connection to Redshift.
+
+#### 1. To go to the Airflow UI:
+* From within the Udacity Project Workspace here and click on the blue Access Airflow button in the bottom right.
+* If you'd prefer to run Airflow locally, open http://localhost:8080 in Google Chrome (other browsers occasionally have issues rendering the Airflow UI).
+
+#### 2. Click on the Admin tab and select Connections.
+
+#### 3. Under Connections, select Create.
+
+#### 4. On the create connection page, enter the following values:
+* Conn Id: Enter aws_credentials.
+* Conn Type: Enter Amazon Web Services.
+* Login: Enter your Access key ID from the IAM User credentials you downloaded earlier.
+* Password: Enter your Secret access key from the IAM User credentials you downloaded earlier.
+
+Once you've entered these values, select Save and Add Another.
+
+#### 5. On the next create connection page, enter the following values:
+
+* Conn Id: Enter redshift.
+* Conn Type: Enter Postgres.
+* Host: Enter the endpoint of your Redshift cluster, excluding the port at the end. You can find this by selecting your cluster in the Clusters page of the Amazon Redshift console. See where this is located in the screenshot below. IMPORTANT: Make sure to NOT include the port at the end of the Redshift endpoint string.
+* Schema: Enter dev. This is the Redshift database you want to connect to.
+* Login: Enter awsuser.
+* Password: Enter the password you created when launching your Redshift cluster.
+* Port: Enter 5439.
+Once you've entered these values, select Save.
+
 
 ### 3.2 Running "udac_sl_etl_dag.py"
-To be written.
+* Start the Airflow web server. 
+* Once the Airflow web server is ready, access the Airflow UI. 
+* First you MUST run "create_tables_dag.py" before "udac_sl_etl_dag.py" to ensure all the staging, fact and dimension tables are created before data can be loaded into them.
 
 
