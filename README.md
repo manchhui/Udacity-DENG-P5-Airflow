@@ -115,5 +115,5 @@ To use the Airflow's UI you must first configure your AWS credentials and connec
 * Start the Airflow web server. 
 * Once the Airflow web server is ready, access the Airflow UI. 
 * First you MUST run "create_tables_dag.py" before "udac_sl_etl_dag.py" to ensure all the staging, fact and dimension tables are created before data can be loaded into them.
-
+* To use the backfill function for loading log data files with specific dates, carry out the following command in the commend line **airflow backfill udac_sl_etl_dag -s YYYY-MM-DD -e YYYY-MM-DD**, where -s is the start date of the backfill and -e is the end date of the backfill.
 
