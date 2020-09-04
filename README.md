@@ -88,8 +88,10 @@ To use the Airflow's UI you must first configure your AWS credentials and connec
 > * If you run Airflow locally, open http://localhost:8080 in Google Chrome (other browsers occasionally have issues rendering the Airflow UI).
 
 > ##### 2. Click on the Admin tab and select Connections.
+> ![](https://github.com/manchhui/Udacity-DENG-P5-Airflow/blob/master/89E90931-37D2-4163-8D8C-937C7957B2D0_4_5005_c.jpeg)
 
 > ##### 3. Under Connections, select Create.
+> ![](https://github.com/manchhui/Udacity-DENG-P5-Airflow/blob/master/97F8D006-16BD-4446-B045-1717375552E1_4_5005_c.jpeg)
 
 > ##### 4. On the create connection page, enter the following values:
 > * Conn Id: Enter aws_credentials.
@@ -108,7 +110,6 @@ To use the Airflow's UI you must first configure your AWS credentials and connec
 > * Password: Enter the password you created when launching your Redshift cluster.
 > * Port: Enter 5439.
 > Once you've entered these values, select Save.
-
 
 ### 3.2 Running "udac_sl_etl_dag.py"
 * Start the Airflow web server. 
